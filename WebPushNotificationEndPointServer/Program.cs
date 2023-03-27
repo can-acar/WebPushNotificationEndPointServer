@@ -84,7 +84,7 @@ try
     // services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
     services.AddValidatorsFromAssembly(assemblies);
     services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(assemblies); });
-    services.AddSerilogUi(options => options.UseSqlServer("DB", "Logs"));
+    services.AddSerilogUi(options => options.UseSqlServer("DB", "logs"));
 
     // services.Configure<IISOptions>(options => { options.ForwardClientCertificate = false; });
     services.Configure<FormOptions>(o =>

@@ -4,7 +4,13 @@ namespace Lib;
 
 public class Subscription
 {
-    [JsonProperty("endpoint")] public string Endpoint { get; set; }
+    public string UserId { get; set; }
+    public string Endpoint { get; set; }
+    public string P256dh { get; set; }
+    public string Auth { get; set; }
+}
 
-    [JsonProperty("keys")] public SubscriptionKeys Keys { get; set; }
+public class Unsubscribe
+{
+    public Guid Id { get; set; }
 }

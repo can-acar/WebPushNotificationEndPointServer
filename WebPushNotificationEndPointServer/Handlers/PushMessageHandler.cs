@@ -27,23 +27,24 @@ public class PushMessageHandler : IRequestHandler<SendNotificationCommand>
         _pushNotificationService = pushNotificationService;
     }
 
+ 
 
     public async Task Handle(SendNotificationCommand request, CancellationToken cancellationToken)
     {
         try
         {
             var subscriptions = await _context.PushSubscription.ToListAsync(cancellationToken);
+       
+
 
             foreach (var subscriptionEntity in subscriptions)
             {
                 var subscription = new Subscription
                 {
                     Endpoint = subscriptionEntity.Endpoint,
-                    Keys = new SubscriptionKeys
-                    {
-                        P256DH = subscriptionEntity.P256dh,
-                        Auth = subscriptionEntity.Auth
-                    }
+                    P256dh = subscriptionEntity.P256dh,
+                    Auth = subscriptionEntity.Auth,
+                    UserId = subscriptionEntity.UserId
                 };
 
                 await _pushNotificationService.SendNotification(subscription, "Your session is closing!");

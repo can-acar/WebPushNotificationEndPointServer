@@ -34,26 +34,7 @@ public class EndPointController : ControllerBase
     }
 
 
-    [HttpPost("subscribe")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesDefaultResponseType]
-    public async Task<IActionResult> Subscribe([FromBody] Subscription subscription)
-    {
-        try
-        {
-            await _mediator.Send(new SubscribeRequest {Subscription = subscription});
-
-            return NoContent();
-        }
-        catch (Exception exception)
-        {
-            _logger.LogWarning(exception.Message, exception);
-
-            return BadRequest(new {status = false, exception.Message});
-        }
-    }
+ 
 
 
     [HttpPost("send-closing-notification")]

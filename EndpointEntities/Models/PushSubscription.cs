@@ -9,6 +9,7 @@ public class PushSubscription
 
     public string Endpoint { get; set; } = null!;
 
+
     public string P256dh { get; set; } = null!;
 
     public string Auth { get; set; } = null!;
@@ -18,4 +19,5 @@ public class PushSubscription
     public DateTime Created { get; set; }
 
     public DateTime? Updated { get; set; }
+    public string UserId { get; set; }
 }

@@ -14,23 +14,37 @@ public class VapidGeneratorController : ControllerBase
     {
     }
 
+    private string GenerateUniqueId()
+    {
+        long timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        string timestampBase36 = timestamp.ToString("X").ToLowerInvariant();
+        string randomString = Guid.NewGuid().ToString("N").Substring(0, 16);
+
+        return timestampBase36 + randomString;
+    }
+
     [HttpGet("")]
     public IActionResult GenerateVapidJwtToken()
     {
         var expiration = DateTimeOffset.UtcNow.AddHours(24).ToUnixTimeSeconds();
 
-        var (publicKey, privateKey) = VapidKeyGenerator.GenerateVapidKeys();
+        var vapidKeys = VapidKeyGenerator.GenerateVapidKeys();
 
-        return Ok(new {publicKey, privateKey, expiration});
+        return Ok(new
+        {
+            UserId = GenerateUniqueId(),
+            vapidKeys.PublicKey,
+            vapidKeys.PrivateKey,
+        });
     }
 
     [HttpGet("jwt")]
-    public IActionResult GenerateVapidJwtToken(string publicKey, string privateKey)
+    public IActionResult GenerateVapidJwtToken(string userId, string publicKey, string privateKey)
     {
         var expiration = DateTimeOffset.UtcNow.AddHours(24).ToUnixTimeSeconds();
 
         var jwtToken = VapidAuthorization.GenerateJwtToken("https://localhost:7275/", "https://localhost:7275/", privateKey);
 
-        return Ok(new {jwtToken, publicKey, privateKey, expiration});
+        return Ok(new {jwtToken, publicKey, privateKey, userId, expiration});
     }
 }

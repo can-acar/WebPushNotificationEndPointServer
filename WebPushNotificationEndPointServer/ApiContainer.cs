@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Autofac;
 using MediatR;
+using WebPushNotificationEndPointServer.Services;
 using Module = Autofac.Module;
 
 namespace WebPushNotificationEndPointServer;
@@ -15,7 +16,10 @@ public class ApiContainer : Module
         builder.RegisterGeneric(typeof(Logger<>))
             .As(typeof(ILogger<>))
             .SingleInstance();
-        
+
+        builder.RegisterType<PushNotificationService>().As<IPushNotificationService>().SingleInstance();
+        builder.Register(c => new HttpClient()).As<HttpClient>();
+
 
         // builder.RegisterAssemblyTypes(assemblies)
         //     .AsClosedTypesOf(typeof(IRequestHandler<>))

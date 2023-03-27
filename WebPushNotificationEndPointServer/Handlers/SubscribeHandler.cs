@@ -28,8 +28,9 @@ public class SubscribeHandler : IRequestHandler<SubscribeRequest>
             var subscriptionEntity = new PushSubscription
             {
                 Endpoint = request.Subscription.Endpoint,
-                P256dh = request.Subscription.Keys.P256DH,
-                Auth = request.Subscription.Keys.Auth,
+                P256dh = request.Subscription.P256dh,
+                Auth = request.Subscription.Auth,
+                UserId = request.Subscription.UserId,
                 Created = current,
                 IsActive = true
             };
